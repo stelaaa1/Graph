@@ -1,0 +1,64 @@
+import java.util.LinkedList;
+import java.util.Queue;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.util.Scanner;
+public class Solution {
+
+	public static void main(String[] args) throws NumberFormatException, IOException {
+        /* Write Your Code Here
+		 * Complete the Rest of the Program
+		 * You have to take input and print the output yourself
+		 */
+        Scanner scan = new Scanner(System.in);
+        int n = scan.nextInt();
+        int e = scan.nextInt();
+        
+        int edges[][] = new int [n][n];
+        for(int i = 0;i<e;i++){
+            int fv = scan.nextInt();
+            int sv = scan.nextInt();
+            edges[fv][sv]=1;
+            edges[sv][fv]=1;
+        }
+        int n1 = scan.nextInt();
+        int n2 = scan.nextInt();
+        
+        if(n2>=n){
+            System.out.println("false");
+            return ;
+        }
+        boolean visited[]= new boolean[n];
+        boolean ans = hasPath(edges,visited,n1,n2);
+        System.out.println(ans);
+
+	}
+    public static boolean hasPath(int[][] edges , boolean [] visited , int n1 , int n2){
+        if(n1>edges.length || n2>edges.length){
+            return false;
+        }
+        if(edges[n1][n2]==1){
+            return true;
+        }
+        Queue <Integer> q = new LinkedList<>();
+        q.add(n1);
+        visited[n1]=true;
+        while(!q.isEmpty()){
+            int front = q.poll();
+            for(int i = 0;i<edges.length;i++){
+                if(edges[front][i]==1 && !visited[i]){
+                    q.add(i);
+                    visited[i]=true;
+                }
+            }
+        }
+        if(visited[n2]==true){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+}
